@@ -3,12 +3,13 @@ from mytf import *
 
 class SE(object):
 	def __init__(self, out_cha, conv, scope = None):
+		self.r = 16
 		self.scope = scope if not scope else scope
 		with tf.variable_scope(self.scope):
-			self.fc1 = myinit('fc1',[1, 1, out_cha, out_cha])
-			self.bias1 = myinit('bias1',[out_cha])
-			self.fc2 = myinit('fc2',[1, 1, out_cha, out_cha])
-			self.bias2 = myinit('bias2',[out_cha])
+			self.fc1 = myinit('fc1',[1, 1, out_cha, out_cha / self.r])
+			# self.bias1 = myinit('bias1',[out_cha])
+			self.fc2 = myinit('fc2',[1, 1, out_cha / self.r, out_cha])
+			# self.bias2 = myinit('bias2',[out_cha])
 			self.conv = conv
 
 	def __call__(self, x, stride):
@@ -19,8 +20,8 @@ class SE(object):
 		squeeze = tf.nn.avg_pool(res, [1,w,1,1], [1,1,1,1], padding = 'VALID')
 		squeeze = tf.transpose(squeeze, [1, 2, 0, 3]) # squeeze: 1*1*batch_size*channel
 
-		fc1 = tf.matmul(squeeze, self.fc1) + self.bias1
-		fc2 = tf.matmul(fc1, self.fc2) + self.bias2 # fc2: 1*1*batch_size*channel
+		fc1 = tf.nn.relu(tf.matmul(squeeze, self.fc1))
+		fc2 = tf.sigmoid(tf.matmul(fc1, self.fc2)) # fc2: 1*1*batch_size*channel
 
 		excition = tf.transpose(fc2, [2,0,1,3])
 		excition = tf.tile(excition, [1,w,1,1])

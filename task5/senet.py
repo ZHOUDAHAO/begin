@@ -7,15 +7,7 @@ from convblock import *
 from Preprocess.news import *
 from tf_classify_summary import tf_classify_summary
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-import time,random
-=======
 import os,time,random
->>>>>>> 052b5660c1dd109551ae7511162cd2ce733955f3
-=======
-import os,time,random
->>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
 
 class Config:
 	wordvecdim = 16
@@ -121,7 +113,7 @@ class Model(tf_classify_summary):
 		tf.summary.scalar('acc', self.acc)
 
 	def get_lookup(self, lookup_batch):
-		lookup_batch = [[self.dic[i] for i in line] for line in lookup_batch]
+		lookup_batch = [[int(self.dic[i.lower() if i.isalpha() else i]) for i in line] for line in lookup_batch]
 		for i,lk in enumerate(lookup_batch):
 			if len(lk) > Config.in_width:
 				lookup_batch[i] = lookup_batch[i][:Config.in_width]
@@ -139,23 +131,12 @@ class Model(tf_classify_summary):
 		return feed
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-<<<<<<< HEAD
 	sleep_time = 1200
-	np.seterr(all = 'raise')
-=======
-=======
->>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
 	os.environ['CUDA_VISIBLE_DEVICES'] = ''
-	sleep_time = 1200
 	np.seterr(all = 'raise')
-	print os.getpid()
-<<<<<<< HEAD
->>>>>>> 052b5660c1dd109551ae7511162cd2ce733955f3
-=======
->>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
+	print 'Pid',os.getpid()
 	m = Model()
-	m.train(Config, sgd = True)
+	m.train(Config)
 	#tf.reset_default_graph()
 	#time.sleep(sleep_time)
 

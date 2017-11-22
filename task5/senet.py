@@ -8,10 +8,14 @@ from Preprocess.news import *
 from tf_classify_summary import tf_classify_summary
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import time,random
 =======
 import os,time,random
 >>>>>>> 052b5660c1dd109551ae7511162cd2ce733955f3
+=======
+import os,time,random
+>>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
 
 class Config:
 	wordvecdim = 16
@@ -136,14 +140,20 @@ class Model(tf_classify_summary):
 
 if __name__ == "__main__":
 <<<<<<< HEAD
+<<<<<<< HEAD
 	sleep_time = 1200
 	np.seterr(all = 'raise')
 =======
+=======
+>>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
 	os.environ['CUDA_VISIBLE_DEVICES'] = ''
 	sleep_time = 1200
 	np.seterr(all = 'raise')
 	print os.getpid()
+<<<<<<< HEAD
 >>>>>>> 052b5660c1dd109551ae7511162cd2ce733955f3
+=======
+>>>>>>> f8f05b38efd8e69cd6b9ae817ffac1659a3723d5
 	m = Model()
 	m.train(Config, sgd = True)
 	#tf.reset_default_graph()
